@@ -234,7 +234,7 @@ def test_model(model_ckpt_name: str,
                dataloader: DataLoader,
                loss_fn: nn.Module,
                dice_fn, precision_fn, recall_fn, checkpoint_dir: str,
-               in_channels: int, num_filters: int, out_channels: int):
+               in_channels: int, out_channels: int):
     """
     Stores and returns the performance metrics when the model is tested on the testing dataset. Has similar
     functionality to the val_step function above.
@@ -248,7 +248,6 @@ def test_model(model_ckpt_name: str,
         recall_fn: A torchmetrics instance to measure recall.
         checkpoint_dir: path to directory where the model checkpoints are stored
         in_channels: number of channels in the input image (default 1)
-        num_filters: number of filters in architecture (refer architecture diagram) (default 40)
         out_channels: number of classes in ground truth mask (default 1)
 
 
@@ -257,7 +256,7 @@ def test_model(model_ckpt_name: str,
             {"test_loss": test_loss, "test_dice": test_dice, "test_precision": test_precision,
                "test_recall": test_recall}
     """
-    model = load_model(os.path.join(checkpoint_dir, model_ckpt_name), in_channels, num_filters, out_channels)
+    model = load_model(os.path.join(checkpoint_dir, model_ckpt_name), in_channels, out_channels)
     model.to(DEVICE)
 
     test_loss, test_dice, test_precision, test_recall = 0, 0, 0, 0
@@ -282,4 +281,3 @@ def test_model(model_ckpt_name: str,
     test_results = {"test_loss": test_loss, "test_dice": test_dice, "test_precision": test_precision,
                     "test_recall": test_recall}
     return test_results
-
