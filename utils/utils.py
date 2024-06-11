@@ -265,9 +265,9 @@ def load_model(model_ckpt_path: str, in_channels: int, out_channels: int):
     print(f"[INFO] Loading model checkpoint for prediction from: {model_ckpt_path}")
 
     # Create model instance
-    model = AttentionUNet(in_channels, out_channels)
+    model = AttentionUNet(in_channels, out_channels).to(DEVICE)
 
     # Load model state dict
-    model.load_state_dict(torch.load(model_ckpt_path))
+    model.load_state_dict(torch.load(model_ckpt_path, map_location=DEVICE))
 
     return model
