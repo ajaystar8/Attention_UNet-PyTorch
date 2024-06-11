@@ -23,6 +23,7 @@ parser.add_argument('data_dir', metavar='DATA_DIR', help='path to dataset direct
 parser.add_argument('checkpoint_dir', metavar='CHECKPOINT_DIR',
                                   help='path to directory storing model checkpoints')
 parser.add_argument('project_name', metavar='PROJECT_NAME', help='Name of project whose checkpoint is being tested.')
+parser.add_argument('dataset_name', metavar='DATASET_NAME', help='Name of dataset whose test portion is used for testing.')
 parser.add_argument('model_ckpt_name', metavar='MODEL_CKPT_NAME', help='Name of the model checkpoint.')
 parser.add_argument('result_file_name', metavar='RESULT_FILE_NAME', help='Name of the .txt file where the results '
                                                                          'will be written.')
@@ -85,7 +86,7 @@ with open(test_results_path, "w") as f:
     now = datetime.now()
     formatted_now = now.strftime("%Y-%m-%d %H:%M")
     # project name
-    f.write(f"{formatted_now}\nProject-Name: {args.project_name}\n")
+    f.write(f"{formatted_now}\nProject-Name: {args.project_name}\nDataset-Name: {args.dataset_name}\n")
     # paste results
     result_str = ""
     for key, value in model_test_results.items():
