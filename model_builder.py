@@ -52,6 +52,7 @@ class AttentionBlock(nn.Module):
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, gate: torch.Tensor, skip: torch.Tensor):
+        # make the number of features equal for both the gate and skip tensors; hence the convolution
         wg = self.gate(gate)
         ws = self.skip(skip)
         x = self.relu(wg + ws)
