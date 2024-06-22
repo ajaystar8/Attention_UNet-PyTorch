@@ -15,6 +15,7 @@ code/datasets/movie/aclImdb_v1.tar.gz
 #custom files and folder for this specific project
 config/private_keys.txt
 models/attention_unet.pth
+models/attention_unet_pure_noisy_mix.pth
 test_results
 wandb
 
