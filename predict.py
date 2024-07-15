@@ -34,14 +34,14 @@ args = parser.parse_args()
 random.seed(20)
 
 # random image path
-img_path = random.choice(list(glob(os.path.join(os.path.join(args.data_sir, "test"), "images", "*.png"))))
+img_path = random.choice(list(glob(os.path.join(os.path.join(args.data_dir, "test"), "images", "*.png"))))
 
 # corresponding mask path
-mask_path = os.path.join(os.path.join(os.path.join(os.path.join(args.data_sir, "test"), "masks",
+mask_path = os.path.join(os.path.join(os.path.join(os.path.join(args.data_dir, "test"), "masks",
                                                    os.path.basename(img_path))))
 
 # model checkpoint path
-model_path = os.path.join(args.checkpoint_dir, "attention_unet.pth")
+model_path = os.path.join(args.checkpoint_dir, "attention_unet_pure_noisy_mix.pth")
 
 # basic transforms to be applied to image for the model to make the forward pass properly.
 simple_transforms = transforms.Compose([

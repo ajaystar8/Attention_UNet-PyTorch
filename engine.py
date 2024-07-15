@@ -145,7 +145,8 @@ def train(model: nn.Module,
           val_dataloader: DataLoader,
           loss_fn: nn.Module,
           optimizer: optim.Optimizer,
-          dice_fn, precision_fn, recall_fn, model_ckpt_name: str, checkpoint_dir: str, verbose: int):
+          dice_fn, precision_fn, recall_fn, model_ckpt_name: str, checkpoint_dir: str,
+          verbose: int, exp_track: str = "false"):
     """
     Trains and validates a PyTorch model.
 
@@ -163,6 +164,8 @@ def train(model: nn.Module,
         precision_fn: A torchmetrics instance to measure precision.
         recall_fn: A torchmetrics instance to measure recall.
         checkpoint_dir: path to directory where the model checkpoints are stored
+        verbose: verbosity
+        exp_track: whether to track the experiment using wandb. Defaults to false
 
     Returns:
         A tuple of containing train and validation metrics (in form of dict) in form of:
@@ -216,7 +219,8 @@ def train(model: nn.Module,
             train_metrics[f"train_{metric}"].append(train_epoch_metrics[f"train_{metric}"].cpu().detach().numpy())
             val_metrics[f"val_{metric}"].append(val_epoch_metrics[f"val_{metric}"].cpu().detach().numpy())
 
-        wandb.log({**train_epoch_metrics, **val_epoch_metrics})
+        if exp_track == "true":
+            wandb.log({**train_epoch_metrics, **val_epoch_metrics})
 
         if verbose == 1:
             wandb.alert(
@@ -225,8 +229,9 @@ def train(model: nn.Module,
                 level=wandb.AlertLevel.INFO,
             )
 
-    wandb.log({"train_time": max_train_time, "val_time": max_val_time})
-    wandb.finish()
+    if exp_track == "true":
+        wandb.log({"train_time": max_train_time, "val_time": max_val_time})
+        wandb.finish()
     return train_metrics, val_metrics
 
 
